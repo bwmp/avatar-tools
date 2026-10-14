@@ -1,9 +1,11 @@
 {
-    "name": "VRChatPackageTemplate.Editor",
-    "references": [],
-    "includePlatforms": [
-        "Editor"
+    "name": "dev.bwmp.avatartools",
+    "rootNamespace": "AvatarTools",
+    "references": [
+        "VRC.SDKBase",
+        "VRC.SDK3A"
     ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
