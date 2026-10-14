@@ -64,7 +64,9 @@ namespace AvatarTools.Editor
 
         public bool OnPreprocessAvatar(GameObject avatarGameObject)
         {
-            var all = avatarGameObject.GetComponentsInChildren<AvatarPresets>(true);
+            var all = avatarGameObject.GetComponentsInChildren<AvatarPresets>(true)
+                .Where(p => !AvatarPresetsPlayMode.Applied.Contains(p))
+                .ToArray();
             if (all.Length == 0) return true;
             if (all.Length > 1)
             {
@@ -96,9 +98,17 @@ namespace AvatarTools.Editor
     [InitializeOnLoad]
     internal static class AvatarPresetsPlayMode
     {
+        // Destroy only takes effect at the end of the frame, and NDMF's apply-on-play runs the build hooks in that same frame,
+        // so the hook has to skip components this already applied.
+        internal static readonly HashSet<AvatarPresets> Applied = new HashSet<AvatarPresets>();
+
         static AvatarPresetsPlayMode()
         {
             AvatarPresets.applyInPlayMode = Apply;
+            EditorApplication.playModeStateChanged += state =>
+            {
+                if (state == PlayModeStateChange.EnteredEditMode) Applied.Clear();
+            };
         }
 
         // Play mode changes are discarded on exit, so the generated assets stay in memory.
@@ -112,6 +122,7 @@ namespace AvatarTools.Editor
                 return;
             }
             AvatarPresetsBuilder.Apply(presets, avatar, false);
+            Applied.Add(presets);
             Object.Destroy(presets);
         }
     }

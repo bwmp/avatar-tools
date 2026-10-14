@@ -1,7 +1,7 @@
 {
   "name": "dev.bwmp.avatartools",
   "displayName": "Avatar Tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2022.3",
   "description": "Editor tools for building VRChat avatars: animator and toggle generators, expression menu and parameter tools, optimization audits, PhysBone and contact helpers, avatar setup utilities, and non-destructive Avatar Presets.",
   "author": {
